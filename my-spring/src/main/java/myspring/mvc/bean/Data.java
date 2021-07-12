@@ -1,4 +1,4 @@
-package myspring.ioc.bean;
+package myspring.mvc.bean;
 
 /**
  * 返回数据对象

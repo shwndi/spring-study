@@ -1,4 +1,4 @@
-package myspring.ioc.bean;
+package myspring.mvc.bean;
 
 import org.apache.commons.collections4.MapUtils;
 

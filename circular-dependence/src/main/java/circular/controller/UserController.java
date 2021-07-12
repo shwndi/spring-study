@@ -7,9 +7,9 @@ import myspring.ioc.annocation.MyAutowired;
 import myspring.ioc.annocation.MyController;
 import myspring.ioc.annocation.MyRequestMapping;
 import myspring.ioc.annocation.RequestMethod;
-import myspring.ioc.bean.Data;
-import myspring.ioc.bean.Param;
-import myspring.ioc.bean.View;
+import myspring.mvc.bean.Data;
+import myspring.mvc.bean.Param;
+import myspring.mvc.bean.View;
 
 import java.util.HashMap;
 import java.util.List;

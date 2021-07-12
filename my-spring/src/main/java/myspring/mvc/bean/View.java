@@ -1,4 +1,4 @@
-package myspring.ioc.bean;
+package myspring.mvc.bean;
 
 import java.util.HashMap;
 import java.util.Map;

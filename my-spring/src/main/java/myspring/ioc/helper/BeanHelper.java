@@ -1,6 +1,6 @@
 package myspring.ioc.helper;
 
-import myspring.ioc.bean.ReflectionUtil;
+import myspring.ioc.util.ReflectionUtil;
 
 import java.util.HashMap;
 import java.util.Map;

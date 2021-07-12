@@ -1,7 +1,4 @@
-package myspring.ioc.bean;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+package myspring.mvc.bean;
 
 /**
  * 封装请求信息
