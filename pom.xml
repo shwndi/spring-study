@@ -11,6 +11,7 @@
     <modules>
         <module>my-spring</module>
         <module>circular-dependence</module>
+        <module>bug-test</module>
     </modules>
 
     <properties>

@@ -1,8 +1,15 @@
 package myspring.ioc;
 
+import myspring.ioc.helper.ConfigHelper;
+
 /**
  * 常量接口
  * 维护配置文件中的相关配置项名称
+ * 在该类中规定配置文件变量对应名称
+ * 通过配置文件获取到集体的值，
+ * 再将配置的值赋给具体变量
+ * 通过{@link ConfigHelper}的方法实现
+ *
  * @author czy
  * @date 2021/7/12
  */
