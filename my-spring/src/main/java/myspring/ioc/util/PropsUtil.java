@@ -54,7 +54,8 @@ public final class PropsUtil {
      */
     public static String getString(Properties props,String key,String defaultValue){
         String value =defaultValue;
-        if (props.contains(key)){
+        if (props.containsKey(key)){
+            System.out.println(111);
             value= props.getProperty(key);
         }
         return value;

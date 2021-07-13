@@ -45,6 +45,7 @@ public final class ClassUtil {
         try {
             clazz = Class.forName(className,isInitialized,getClassLoader());
         } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
             LOGGER.error("load class failure", e);
             throw new RuntimeException(e);
         }
@@ -71,13 +72,21 @@ public final class ClassUtil {
              * 获取所有文件路径
              */
             Enumeration<URL> urls = getClassLoader().getResources(packageName.replace(".", "/"));
+            //file:/E:/myProject/spring-study/circular-dependence/target/classes/
+            //file:/E:/myProject/spring-study/my-spring/target/classes/
+            System.out.println(urls);
             while (urls.hasMoreElements()) {
                 URL url = urls.nextElement();
+                System.out.println(url);
                 if (url!=null){
                     String protocol = url.getProtocol();
                     if (protocol.equals("file")){
                         String packagePath = url.getPath().replaceAll("%20"," ");
-                        addClass(classSet,packagePath,packageName);
+                        try {
+                            addClass(classSet,packagePath,packageName);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }else if (protocol.equals("jar")){
                         JarURLConnection jarURLConnection = (JarURLConnection)url.openConnection();
                         if (jarURLConnection!=null){
@@ -113,7 +122,7 @@ public final class ClassUtil {
      * @param packagePath
      * @param packageName
      */
-    private static void addClass(Set<Class<?>> classSet,String packagePath,String packageName){
+    private static void addClass(Set<Class<?>> classSet,String packagePath,String packageName)throws Exception{
         /**
          * 根据路径获取所有文件
          * 通过FileFilter过滤路径文件或者文件夹返回ture
@@ -126,6 +135,7 @@ public final class ClassUtil {
         });
         for (File file : files) {
             String fileName = file.getName();
+            System.out.println("filename="+fileName);
             if (file.isFile()){
             /**
              * 路径是文件的处理方式
