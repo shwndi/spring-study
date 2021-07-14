@@ -5,6 +5,7 @@ import circular.service.IUserService;
 import myspring.ioc.annocation.MyService;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +20,15 @@ public class UserService implements IUserService {
      */
     @Override
     public List<User> getAllUser() {
-        String sql = "SELECT * FROM user";
-//        return DatabaseHelper.queryEntityList(User.class, sql);
-        return Arrays.asList( new User(3,"萧炎",20)
-                , new User(3,"萧炎",20));
+        List<User> userList = new ArrayList<>();
+        userList.add(new User(1, "Tom", 22));
+        userList.add(new User(2, "Alic", 12));
+        userList.add(new User(3, "Bob", 32));
+        return userList;
+//        String sql = "SELECT * FROM user";
+////        return DatabaseHelper.queryEntityList(User.class, sql);
+//        return Arrays.asList( new User(3,"萧炎",20)
+//                , new User(3,"萧炎",20));
     }
 
     /**
@@ -32,7 +38,7 @@ public class UserService implements IUserService {
     public User GetUserInfoById(Integer id) {
         String sql = "SELECT * FROM user WHERE id = ?";
 //        return DatabaseHelper.queryEntity(User.class, sql, id);
-        return new User(3,"萧炎",20);
+        return new User(3, "萧炎", 20);
     }
 
     /**

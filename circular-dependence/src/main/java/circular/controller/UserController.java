@@ -21,7 +21,7 @@ import java.util.Map;
 @MyController
 public class UserController {
     @MyAutowired
-    private IUserService userService;
+    public IUserService userService;
 
     /**
      * 用户列表

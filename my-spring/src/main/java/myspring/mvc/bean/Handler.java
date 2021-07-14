@@ -1,4 +1,4 @@
-package myspring.mvc.helper;
+package myspring.mvc.bean;
 
 import java.lang.reflect.Method;
 

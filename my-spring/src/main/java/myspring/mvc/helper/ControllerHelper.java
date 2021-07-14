@@ -1,9 +1,8 @@
 package myspring.mvc.helper;
 
-import myspring.ioc.annocation.MyController;
 import myspring.ioc.annocation.MyRequestMapping;
-import myspring.ioc.annocation.RequestMethod;
 import myspring.ioc.helper.ClassHelper;
+import myspring.mvc.bean.Handler;
 import myspring.mvc.bean.Request;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -51,7 +50,7 @@ public class ControllerHelper {
                             String requestMethod = annotation.method().name();
 
                             //封装请求和处理器
-                            Request request = new Request(requestPath, requestMethod);
+                            Request request = new Request( requestMethod,requestPath);
                             Handler handler = new Handler(clazz, method);
                             REQUEST_MAP.put(request,handler);
                         }

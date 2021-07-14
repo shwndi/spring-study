@@ -1,4 +1,5 @@
 package myspring.mvc;
+import com.alibaba.fastjson.JSON;
 import myspring.ioc.helper.BeanHelper;
 import myspring.ioc.helper.ConfigHelper;
 import myspring.ioc.util.ReflectionUtil;
@@ -6,9 +7,10 @@ import myspring.mvc.bean.Data;
 import myspring.mvc.bean.Param;
 import myspring.mvc.bean.View;
 import myspring.mvc.helper.ControllerHelper;
-import myspring.mvc.helper.Handler;
-import myspring.mvc.helper.HelperLoader;
+import myspring.mvc.bean.Handler;
+import myspring.mvc.HelperLoader;
 import myspring.mvc.helper.RequestHelper;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
@@ -16,8 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
-
+import java.util.Map;
 
 
 /**
@@ -39,7 +42,7 @@ import java.lang.reflect.Method;
  * @author czy
  * @date 2021/7/12
  */
-@WebServlet(urlPatterns = "/*",loadOnStartup = 0,asyncSupported = true)
+@WebServlet(urlPatterns = "/*",loadOnStartup = 0)
 public class DispatcherServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -113,20 +116,42 @@ public class DispatcherServlet extends HttpServlet {
 
     /**
      * 跳转页面
-     * @param result
+     * @param view
      * @param req
      * @param res
      */
-    private void handlerViewResult(View result, HttpServletRequest req, HttpServletResponse res) {
+    private void handlerViewResult(View view, HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        String path = view.getPath();
+        if (StringUtils.isNotEmpty(path)) {
+            if (path.startsWith("/")) { //重定向
+                res.sendRedirect(req.getContextPath() + path);
+            } else { //请求转发
+                Map<String, Object> model = view.getModel();
+                for (Map.Entry<String, Object> entry : model.entrySet()) {
+                    req.setAttribute(entry.getKey(), entry.getValue());
+                }
+                req.getRequestDispatcher(ConfigHelper.getAppJspPath() + path).forward(req, res);
+            }
+        }
     }
 
     /**
      * 返回json请求
-     * @param result
+     * @param data
      * @param req
      * @param res
      */
-    private void handlerDataResult(Data result, HttpServletRequest req, HttpServletResponse res) {
+    private void handlerDataResult(Data data, HttpServletRequest req, HttpServletResponse res) throws IOException {
+        Object model = data.getModel();
+        if (model != null) {
+            res.setContentType("application/json");
+            res.setCharacterEncoding("UTF-8");
+            PrintWriter writer = res.getWriter();
+            String json = JSON.toJSON(model).toString();
+            writer.write(json);
+            writer.flush();
+            writer.close();
+        }
     }
 
 }

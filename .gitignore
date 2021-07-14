@@ -3,7 +3,7 @@
 .gitignore
 *.iml
 .idea/
-
+/circular-dependence/src/main/java/circular/pojo/test
 .mtj.tmp/
 
 # Package Files #

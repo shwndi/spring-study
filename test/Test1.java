@@ -1,8 +1,7 @@
-package circular.test;
+package circular.pojo.test;
 
 
 import circular.app.AppConfig;
-import circular.service.X;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**

@@ -1,9 +1,10 @@
-package myspring.mvc.helper;
+package myspring.mvc;
 
 import myspring.ioc.helper.BeanHelper;
 import myspring.ioc.helper.ClassHelper;
 import myspring.ioc.helper.IocHelper;
 import myspring.ioc.util.ClassUtil;
+import myspring.mvc.helper.ControllerHelper;
 
 /**
  * 我们创建了ClassHelper, BeanHelper, IocHelper, ControllerHelper这四个Helper类
