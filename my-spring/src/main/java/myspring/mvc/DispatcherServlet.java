@@ -2,6 +2,7 @@ package myspring.mvc;
 import com.alibaba.fastjson.JSON;
 import myspring.ioc.helper.BeanHelper;
 import myspring.ioc.helper.ConfigHelper;
+import myspring.ioc.util.ClassUtil;
 import myspring.ioc.util.ReflectionUtil;
 import myspring.mvc.bean.Data;
 import myspring.mvc.bean.Param;
@@ -11,6 +12,8 @@ import myspring.mvc.bean.Handler;
 import myspring.mvc.HelperLoader;
 import myspring.mvc.helper.RequestHelper;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
@@ -46,14 +49,18 @@ import java.util.Map;
 public class DispatcherServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
+        System.out.println("DispatcherServlet初始化...");
+
         //初始化相关的helper类
         HelperLoader.init();
-
+        super.init(config);
         //获取ServletContext对象，用于注册Servlet
         ServletContext servletContext = config.getServletContext();
 
         //注册处理jsp和静态资源servlet
         registerServler(servletContext);
+
+        System.out.println("DispatcherServlet完成");
     }
 
     /**
@@ -65,11 +72,12 @@ public class DispatcherServlet extends HttpServlet {
     private void registerServler(ServletContext servletContext) {
         //动态注册处理jsp的servlet
         ServletRegistration jspServlet = servletContext.getServletRegistration("jsp");
-        jspServlet.addMapping(ConfigHelper.getAppJspPath());
+        jspServlet.addMapping(ConfigHelper.getAppJspPath()+"*");
 
         //动态注册处理静态资源的默认servlet
         ServletRegistration defaultServlet = servletContext.getServletRegistration("default");
-        defaultServlet.addMapping(ConfigHelper.getAppAssetPath());
+        defaultServlet.addMapping("/favicon.ico"); //网站头像
+        defaultServlet.addMapping(ConfigHelper.getAppAssetPath()+"*");
     }
 
     @Override
@@ -106,7 +114,7 @@ public class DispatcherServlet extends HttpServlet {
             if (result instanceof View){
                 handlerViewResult((View)result,req,res);
             }else if (result instanceof Data){
-                handlerDataResult((Data)result,req,res);
+                handlerDataResult((Data)result,res);
             }
 
         }
@@ -130,7 +138,8 @@ public class DispatcherServlet extends HttpServlet {
                 for (Map.Entry<String, Object> entry : model.entrySet()) {
                     req.setAttribute(entry.getKey(), entry.getValue());
                 }
-                req.getRequestDispatcher(ConfigHelper.getAppJspPath() + path).forward(req, res);
+                RequestDispatcher requestDispatcher = req.getRequestDispatcher(ConfigHelper.getAppJspPath() + path);
+                requestDispatcher.forward(req, res);
             }
         }
     }
@@ -138,10 +147,9 @@ public class DispatcherServlet extends HttpServlet {
     /**
      * 返回json请求
      * @param data
-     * @param req
      * @param res
      */
-    private void handlerDataResult(Data data, HttpServletRequest req, HttpServletResponse res) throws IOException {
+    private void handlerDataResult(Data data, HttpServletResponse res) throws IOException {
         Object model = data.getModel();
         if (model != null) {
             res.setContentType("application/json");

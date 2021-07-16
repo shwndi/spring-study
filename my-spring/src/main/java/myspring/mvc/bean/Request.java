@@ -30,8 +30,7 @@ public class Request {
     @Override
     public int hashCode() {
         int result = 17;
-        result = 31 * result + requestMethod.hashCode();
-        result = 31 * result + requestPath.hashCode();
+        result = 31 * result + requestPath.hashCode()+requestMethod.hashCode();
         return result;
     }
 
