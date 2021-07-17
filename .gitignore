@@ -5,7 +5,7 @@
 .idea/
 /circular-dependence/src/main/java/circular/pojo/test
 .mtj.tmp/
-
+**/target
 # Package Files #
 *.jar
 *.war
