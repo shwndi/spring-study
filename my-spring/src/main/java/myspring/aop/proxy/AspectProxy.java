@@ -2,7 +2,6 @@ package myspring.aop.proxy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.lang.reflect.Method;
 
 /**
@@ -54,6 +53,7 @@ public abstract class AspectProxy implements Proxy {
 
     /**
      * 前置增强
+     * @return
      */
     public void before(Method method, Object[] params) throws Throwable {
     }
